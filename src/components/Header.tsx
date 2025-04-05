@@ -4,10 +4,11 @@ import React from 'react'
 import { shadow } from '@/styles/utils'
 import { Button } from './ui/button'
 import DarkModeToggle from './DarkModeToggle'
-import LogoutButton from './LogoutButton'
+import LogOutButton from './LogOutButton'
+import { getUser } from '@/auth/server'
 
-function Header() {
-    const user = true
+async function Header() {
+    const user = await getUser()
     return (
         <header className='bg-popover relative flex h-24 w-full items-center justify-between  px-3 sm:px-8 '
         style={{
@@ -32,7 +33,7 @@ function Header() {
             <div className='flex gap-4'>
                 {
                 user?
-                <LogoutButton />:
+                <LogOutButton />:
                 <>
                 <Button asChild className='hidden sm:block'>
                     <Link href = "/sign-up">sign-up</Link>
