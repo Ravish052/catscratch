@@ -1,3 +1,4 @@
+//import { createServerClient } from '@supabase/ssr'
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
@@ -17,7 +18,7 @@ export async function updateSession(request: NextRequest) {
     request,
   })
 
-  /* const supabase = createServerClient(
+  const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
@@ -36,14 +37,46 @@ export async function updateSession(request: NextRequest) {
         },
       },
     }
-  ) */
+  )
 
+  const isAuthRoute = request.nextUrl.pathname === "/login" || request.nextUrl.pathname === "/sign-up"
+  if (isAuthRoute) {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser()
+    if (user) {
+      return NextResponse.redirect(new URL('/', process.env.NEXT_PUBLIC_SITE_URL!))
+    }
+  }
 
-  /* const {
-    data: { user },
-  } = await supabase.auth.getUser() */
+const {searchParams , pathName} = new URL(request.url)
 
+if(!searchParams.get("noteId") && pathName === "/"){
+  const {
+    data :{user}
+  } = await supabase.auth.getUser()
+}
 
-  
-  return supabaseResponse
+if(user){
+  const {newestNoteId} = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/fetch-newest-note?userId = ${user.id}`).then((res)=> res.json())
+}
+
+if(newestNoteId){
+  const url = request.nextUrl.clone()
+  url.searchParams.set("noteId", newestNoteId)
+  return NextResponse.redirect(url)
+}else{
+    const {noteId} = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/create-new-note?userId = ${user.id}`,{
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId: user.id,
+      }),
+    }).then((res)=> res.json())
+}
+}
+
+return supabaseResponse
 }

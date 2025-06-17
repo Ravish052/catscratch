@@ -1,4 +1,7 @@
 import { getUser } from '@/auth/server'
+import AskAiButton from '@/components/AskAiButton'
+import NewNoteButton from '@/components/NewNoteButton'
+import NoteTextInput from '@/components/NoteTextInput'
 import { prisma } from '@/db/prisma'
 import React from 'react'
 
@@ -18,12 +21,10 @@ async function HomePage({searchParams}:props) {
   return (
     <div className='flex h-full flex-col items-center gap-4'>
       <div className='flex w-4 max-w-4 xl justify-end gap-2'>
-        <AskAiButton />
-        <NewNoteButton  user = {user}/>
-
-        
+        <AskAiButton user = {user} />
+        <NewNoteButton user = {user} />  
       </div>
-      <NoteTextinput
+      <NoteTextInput
         noteId = {noteId}
         startingNoteText = {note?.text || ""}
       / >

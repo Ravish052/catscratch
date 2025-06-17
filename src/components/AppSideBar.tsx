@@ -37,7 +37,7 @@ async function AppSidebar() {
                             <Link href="/login" className="underlined">
                                 Log in
                             </Link>{" "}
-                            "to see your Notes"
+                            {"to see your Notes"}
                         </p>}
                     </SidebarGroupLabel>
                     {user && <SidebarGroupContents notes = {notes} />}
