@@ -27,7 +27,7 @@ function SidebarGroupContents({ notes }: props) {
     })
   }, [localNotes])
 
-  const filteredNotes = searchText ? fuse.search(searchText).map((result: { item: any }) => result.item)
+  const filteredNotes = searchText ? fuse.search(searchText).map((result) => result.item)
     : localNotes;
 
   const deleteNoteLocally = (noteId: string) => {

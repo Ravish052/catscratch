@@ -7,7 +7,7 @@ import { Button } from './ui/button'
 import { useRouter } from 'next/navigation'
 import { v4 as uuidv4 } from 'uuid'
 import { toast } from "sonner"
-import { createNoteAction } from '@/actions/notes'
+import { CreateNoteAction } from '@/actions/notes'
 type props = {
   user: User | null
 }
@@ -22,7 +22,7 @@ function NewNoteButton({ user }: props) {
     } else {
       setLoading(true)
       const uuid = uuidv4()
-      await createNoteAction(uuid)
+      await CreateNoteAction(uuid)
       router.push(`/?noteId=${uuid}`)
       toast.success("New note created")
       setLoading(false)
