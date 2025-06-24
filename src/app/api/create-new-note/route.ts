@@ -8,7 +8,7 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ error: "Missing userId" }, { status: 400 });
     }
 
-    const { id } = await prisma.note.create({
+    const  id  = await prisma.note.create({
         data: {
             authorId: userId,
             text: ""

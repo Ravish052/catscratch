@@ -39,11 +39,11 @@ export async function updateSession(request: NextRequest) {
     },
   );
 
- /*  const isAuthRoute =
+  const isAuthRoute =
     request.nextUrl.pathname === "/login" ||
-    request.nextUrl.pathname === "/sign-up"; */
+    request.nextUrl.pathname === "/sign-up";
 
-  /* if (isAuthRoute) {
+  if (isAuthRoute) {
     const {
       data: { user },
     } = await supabase.auth.getUser();
@@ -52,11 +52,11 @@ export async function updateSession(request: NextRequest) {
         new URL("/", process.env.NEXT_PUBLIC_BASE_URL),
       );
     }
-  } */
+  }
 
-  /* const { searchParams, pathname } = new URL(request.url); */
+  const { searchParams, pathname } = new URL(request.url);
 
-  /* if (!searchParams.get("noteId") && pathname === "/") {
+  if (!searchParams.get("noteId") && pathname === "/") {
     const {
       data: { user },
     } = await supabase.auth.getUser();
@@ -85,7 +85,7 @@ export async function updateSession(request: NextRequest) {
         return NextResponse.redirect(url);
       }
     }
-  } */
+  }
 
   return supabaseResponse;
-}  
+}
