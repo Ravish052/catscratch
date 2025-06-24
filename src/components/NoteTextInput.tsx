@@ -31,12 +31,41 @@ function NoteTextInput({noteId, startingNoteText}:props) {
         }, debounceTimeout)
     }
   return (
-    <textarea 
-        value = {noteText}
-        onChange = {(e) => handleUpdateNote(e) }
-        placeholder='Type your note here...'
-        className='custom-scrollbar mb-4 h-full max-w-4xl resize -none borderp-4 placeholder:text-muted-foreground focus-visible:ring-0 focus visible:ring -offset-0'
-    />
+    <textarea
+  value={noteText}
+  onChange={(e) => handleUpdateNote(e)}
+  placeholder="Start writing your note..."
+  className="
+    w-full 
+    h-full 
+    max-w-4xl 
+    p-6 
+    mb-4
+    resize-none 
+    rounded-xl 
+    border-0
+    bg-white 
+    shadow-sm 
+    ring-1 
+    ring-gray-200
+    text-gray-900 
+    text-base
+    leading-relaxed
+    placeholder:text-gray-400 
+    focus:ring-2 
+    focus:ring-blue-500
+    focus:shadow-md
+    dark:bg-gray-900 
+    dark:ring-gray-700 
+    dark:text-gray-100 
+    dark:placeholder:text-gray-500
+    dark:focus:ring-blue-400
+    transition-all 
+    duration-200 
+    ease-in-out
+    custom-scrollbar
+  "
+/>
   )
 }
 

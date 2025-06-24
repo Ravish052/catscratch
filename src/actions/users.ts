@@ -1,19 +1,19 @@
 "use server"
-
 import { createClient } from "@/auth/server"
 import { prisma } from "@/db/prisma"
 import { handleError } from "@/lib/utils"
+import { redirect } from "next/navigation"
 
 export const loginAction = async (email: string, password: string) => {
     try {
-        const { auth } = await createClient()
-        const { error } = await auth.signInWithPassword({
+        const supabase = await createClient()
+        const { error } = await supabase.auth.signInWithPassword({
             email,
             password
         })
         if (error) throw error
-
-        return { errorMessage: null }
+        
+        redirect('/dashboard')
     } catch (error) {
         return handleError(error)
     }
@@ -21,22 +21,23 @@ export const loginAction = async (email: string, password: string) => {
 
 export const signUpAction = async (email: string, password: string) => {
     try {
-        const { auth } = await createClient()
-        const { data,error } = await auth.signUp({
+        const supabase = await createClient()
+        const { data, error } = await supabase.auth.signUp({
             email,
             password
         })
         if (error) throw error
-
+        
         const userId = data.user?.id
         if(!userId) throw new Error("Error Signing Up")
-        
+       
         await prisma.user.create({
-            data :{
+            data: {
                 id: userId,
                 email,
             }
         })
+        
         return { errorMessage: null }
     } catch (error) {
         return handleError(error)
@@ -45,11 +46,12 @@ export const signUpAction = async (email: string, password: string) => {
 
 export const logOutAction = async () => {
     try {
-        const { auth } = await createClient()
-        const { error } = await auth.signOut()
+        const supabase = await createClient()
+        const { error } = await supabase.auth.signOut()
         if (error) throw error
-
-        return { errorMessage: null }
+        
+        // Redirect after logout
+        redirect('/login')
     } catch (error) {
         return handleError(error)
     }
